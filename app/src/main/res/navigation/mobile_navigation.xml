@@ -25,11 +25,11 @@
     <fragment
         android:id="@+id/favoriteVideo"
         android:name="com.example.ashram_app.ui.favoriteVideo.FavoriteVideo"
-        android:label="fragment_favorite_video"
+        android:label="Избранное видео"
         tools:layout="@layout/fragment_favorite_video" />
     <fragment
         android:id="@+id/favoriteAudio"
         android:name="com.example.ashram_app.ui.favoriteAudio.FavoriteAudio"
-        android:label="fragment_favorite_audio"
+        android:label="Избранное аудио"
         tools:layout="@layout/fragment_favorite_audio" />
 </navigation>

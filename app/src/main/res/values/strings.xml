@@ -130,6 +130,8 @@
     <string name="audio_name">audio name</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Избранное аудио</string>
+    <string name="whatsapp">WhatsApp</string>
+    <string name="instagram">Instagram</string>
 
 
 </resources>

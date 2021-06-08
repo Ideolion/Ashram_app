@@ -31,12 +31,13 @@
     <group android:id="@+id/andOther">
         <item
             android:id="@+id/mm_6"
-
-            android:title="Instagram" />
+android:onClick="Instagram"
+            android:title="@string/instagram" />
         <item
             android:id="@+id/mm_7"
+            android:onClick="WhatsApp"
 
-            android:title="WhatsApp" />
+            android:title="@string/whatsapp" />
     </group>
 
 
