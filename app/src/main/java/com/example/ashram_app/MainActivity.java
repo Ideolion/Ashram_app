@@ -1,12 +1,10 @@
 package com.example.ashram_app;
 
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -115,20 +113,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void Instagram(MenuItem item) {
-        Intent launchIntent = getPackageManager().getLaunchIntentForPackage("com.instagram.android");
-        if (launchIntent != null) {
-            try {
-                startActivity(launchIntent);
-            } catch (ActivityNotFoundException ex)
-            {
-                Toast.makeText(MainActivity.this, "Инстаграммы тут неть", Toast.LENGTH_SHORT).show();
-
-            }
-
-
-        }
-    }
-    public void WhatsApp(MenuItem item) {
         try {
             Intent intent = new Intent(Intent.ACTION_VIEW);
             intent.setData(Uri.parse("http://instagram.com/_u/" + "sergey_stefanovskii"));
@@ -140,6 +124,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://www.instagram.com/" + "sergey_stefanovskii")));
         }
+
+
+
+    }
+    public void WhatsApp(MenuItem item) {
+        String url = "https://api.whatsapp.com/send?phone="+"+79230155969";
+        Intent i = new Intent(Intent.ACTION_VIEW);
+        i.setData(Uri.parse(url));
+        startActivity(i);
+
 
 
 
