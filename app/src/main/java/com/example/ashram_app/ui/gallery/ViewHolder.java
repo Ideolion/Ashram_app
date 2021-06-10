@@ -32,6 +32,22 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public ViewHolder(View itemView) {
 
         super(itemView);
+
+
+
+
+
+        itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mClickListener.OnItemLongClick(view,getAdapterPosition());
+
+
+
+                return false;
+            }
+        });
+
     }
 
 
@@ -46,7 +62,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
 
 
-
             exoPlayer = ExoPlayerFactory.newSimpleInstance(application);
 
             Uri video = Uri.parse(videourl);
@@ -59,46 +74,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             exoPlayer.setPlayWhenReady(false);
 
             fullscreenButton = itemView.findViewById(R.id.exo_fullscreen_icon);
-//            fullscreenButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if(fullscreen) {
-//                        fullscreenButton.setImageDrawable(ContextCompat.getDrawable(, R.drawable.ic_fullscreen_open)); /*было */
-//                        ((Activity) getContext()).getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
-//
-//                        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null){
-//                            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-//                        }
-//                        ((AppCompatActivity)getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) playerView.getLayoutParams();
-//                        params.width = params.MATCH_PARENT;
-//                        params.height = (int) ( 200 * ((AppCompatActivity)getActivity()).getApplicationContext().getResources().getDisplayMetrics().density);
-//                        playerView.setLayoutParams(params);
-//                        fullscreen = false;
-//                    }else{
-//                        fullscreenButton.setImageDrawable(ContextCompat.getDrawable(recyclerView.getContext(), R.drawable.ic_fullscreen_close));
-//                        ((Activity) getContext()).getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN
-//                                |View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-//                                |View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
-//                        if(((AppCompatActivity)getActivity()).getSupportActionBar() != null){
-//                            ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
-//                        }
-//                        ((AppCompatActivity)getActivity()).setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-//                        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) playerView.getLayoutParams();
-//                        params.width = params.MATCH_PARENT;
-//                        params.height = params.MATCH_PARENT;
-//                        playerView.setLayoutParams(params);
-//                        fullscreen = true;
-//                    }
-//                }
-//            });
-
-
-
-
-
-
-
 
         } catch (Exception e) {
 
@@ -107,6 +82,19 @@ public class ViewHolder extends RecyclerView.ViewHolder {
 
     }
 
+
+    private ViewHolder.ClickListener mClickListener;
+
+    public interface ClickListener {
+        void OnItemLongClick(View view, int position);
+
+
+    }
+
+    public void SetOnClickListener(ViewHolder.ClickListener clickListener) {
+        mClickListener = clickListener;
+
+    }
 
 }
 

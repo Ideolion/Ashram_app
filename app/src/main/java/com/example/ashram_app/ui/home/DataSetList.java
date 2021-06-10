@@ -2,20 +2,17 @@ package com.example.ashram_app.ui.home;
 
 public class DataSetList {
 
-    String link;
+    String youtubeURL;
 
-    public String getLink() {
-        return link;
+    public DataSetList(String youtubeURL) {
+        this.youtubeURL = youtubeURL;
     }
 
-    public void setLink(String link) {
-        this.link = link;
+    public String getYoutubeURL() {
+        return youtubeURL;
     }
 
-    public DataSetList() {
-    }
-
-    public DataSetList(String link) {
-        this.link = link;
+    public void setYoutubeURL(String youtubeURL) {
+        this.youtubeURL = youtubeURL;
     }
 }

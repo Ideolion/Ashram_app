@@ -1,5 +1,8 @@
 package com.example.ashram_app.ui.home;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.ashram_app.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +41,8 @@ public class HomeFragment extends Fragment {
     ArrayList<DataSetList> arrayList;
     private MenuItem action_addVideo;
     private MenuItem search;
+    Context context;
+    String URL;
     Query query;
 
 
@@ -72,6 +79,8 @@ public class HomeFragment extends Fragment {
                         }
                     }
                 });
+
+
         return view;
     }
 
@@ -90,6 +99,118 @@ public class HomeFragment extends Fragment {
         }
         super.onCreateOptionsMenu(menu, inflater);
 
+
+    }
+
+    public class YoutubeAdapter extends RecyclerView.Adapter<YoutubeViewHolder> {
+        ArrayList<DataSetList> arrayList;
+        Context context;
+        String URL;
+
+
+        public YoutubeAdapter(ArrayList<DataSetList> arrayList, Context context) {
+            this.arrayList = arrayList;
+            this.context = context;
+
+
+        }
+
+        @NonNull
+        @Override
+        public YoutubeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(context).inflate(R.layout.video_item_home, parent, false);
+            return new YoutubeViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull YoutubeViewHolder holder, int position) {
+            final DataSetList current = arrayList.get(position);
+
+
+            YoutubeViewHolder.webView.loadUrl(current.getYoutubeURL());
+
+            YoutubeViewHolder.webView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    URL = current.getYoutubeURL();
+
+                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                    String userid = user.getUid();
+                    if (userid.equals(admin1UID)) {
+                        showDeleteDialog(URL);
+                    }
+                    return false;
+                }
+            });
+
+        }
+
+        @Override
+        public int getItemCount() {
+            return arrayList.size();
+        }
+
+
+        private void showDeleteDialog(String url) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+
+            builder.setTitle("Удалить видео Youtube");
+            builder.setMessage("Вы уверены что хотите удалить это видео Youtube?");
+            builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    final String[] docID = new String[1];
+
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+                    db.collection("YoutubeLink").whereEqualTo("youtubeURL", url)
+                            .get()
+                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                @Override
+                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                    if (task.isSuccessful()) {
+                                        for (QueryDocumentSnapshot document : task.getResult()) {
+                                            docID[0] = document.getId();
+
+                                        }
+
+                                        Toast.makeText(getActivity(), docID[0].toString(), Toast.LENGTH_SHORT).show();
+
+                                        db.collection("YoutubeLink").document(docID[0].toString())
+                                                .delete()
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Toast.makeText(getActivity(), "Видео удалено", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Toast.makeText(getActivity(), "Не удалось удалить видео", Toast.LENGTH_SHORT).show();
+                                                    }
+                                                });
+
+                                    } else {
+                                        Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                            });
+
+                }
+            });
+
+            builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int i) {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            builder.show();
+
+
+        }
 
     }
 

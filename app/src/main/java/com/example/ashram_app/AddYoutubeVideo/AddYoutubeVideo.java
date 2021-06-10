@@ -45,7 +45,7 @@ public class AddYoutubeVideo extends AppCompatActivity {
         DataSetList dataSetList = new DataSetList(URL);
 
 
-       // https://youtu.be/mdd27VwuWQ0
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("YoutubeLink")
                 .add(dataSetList)

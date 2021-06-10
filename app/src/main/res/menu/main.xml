@@ -17,6 +17,13 @@
         android:title="@string/addVideo"
         android:visible="false"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_addAudio"
+        android:onClick="onClickAddAudio"
+        android:orderInCategory="110"
+        android:title="Добавить аудио"
+        android:visible="false"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/action_quit"

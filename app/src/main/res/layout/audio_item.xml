@@ -7,14 +7,15 @@
     android:clickable="true"
     android:padding="5dp"
     android:focusable="true"
-    android:background="?android:attr/selectableItemBackground">
+    android:background="?android:attr/selectableItemBackground"
+    android:onClick="PlayAudio">
 
     <ImageView
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:layout_marginEnd="10dp"
         android:layout_centerVertical="true"
-        android:src="@drawable/flower"
+        android:src="@drawable/ic_baseline_play_arrow_24"
         android:id="@+id/flower" />
 
 
@@ -29,22 +30,6 @@
         android:textSize="16sp"
     />
 
-    <TextView
-    android:id="@+id/duration"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_alignParentEnd="true"
-    android:text="1:10"
-/>
-    <ImageView
-        android:id="@+id/play"
-        android:src="@drawable/play"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/duration"
-        android:visibility="invisible"
-/>
 
 
 </RelativeLayout>
