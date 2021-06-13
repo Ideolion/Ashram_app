@@ -9,6 +9,8 @@
     tools:context=".AddVideo.AddVideoActivity">
 
 
+
+
     <VideoView
         android:id="@+id/videoview_main"
         android:layout_width="match_parent"
@@ -24,14 +26,7 @@
         android:textColor="@color/Color4"
         android:textSize="20sp" />
 
-    <EditText
-        android:id="@+id/et_video_class"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:hint="Video Class"
-        android:textColor="@color/Color4"
-        android:textSize="20sp" />
+
 
     <Button
         android:id="@+id/button_ChooseVideo"

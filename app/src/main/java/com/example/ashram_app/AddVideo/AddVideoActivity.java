@@ -48,54 +48,41 @@ public class AddVideoActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private FirebaseUser cUser;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_video);
-
         videoProperties = new VideoProperties();
         storageReference = FirebaseStorage.getInstance().getReference("Video");
         db = FirebaseFirestore.getInstance();
-
-
-
         videoView = findViewById(R.id.videoview_main);
-        Button buttonUpload= findViewById(R.id.button_upload_main);
+        Button buttonUpload = findViewById(R.id.button_upload_main);
         Button buttonChoose = findViewById(R.id.button_ChooseVideo);
         Button buttonBack = findViewById(R.id.button_back);
-
-
         progressBar = findViewById(R.id.progressBar_main);
         editText = findViewById(R.id.et_video_name);
-        editTextClass = findViewById(R.id.et_video_class);
         mediaController = new MediaController(this);
         videoView.setMediaController(mediaController);
         videoView.start();
-
         buttonUpload.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            UploadVideo();
-        }
-    });
+            @Override
+            public void onClick(View v) {
+                UploadVideo();
+            }
+        });
         buttonChoose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ChooseVideo();
             }
         });
-}
-
-
-
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if (requestCode == PICK_VIDEO || resultCode == RESULT_OK ||
-                data != null || data.getData() != null ){
+                data != null || data.getData() != null) {
             videoUri = data.getData();
 
             videoView.setVideoURI(videoUri);
@@ -103,31 +90,24 @@ public class AddVideoActivity extends AppCompatActivity {
 
     }
 
-
-    private String getExt(Uri uri){
+    private String getExt(Uri uri) {
         ContentResolver contentResolver = getContentResolver();
         MimeTypeMap mimeTypeMap = MimeTypeMap.getSingleton();
-        return  mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
+        return mimeTypeMap.getExtensionFromMimeType(contentResolver.getType(uri));
     }
 
-
-
-    private void UploadVideo(){
+    private void UploadVideo() {
 
         String videoName = editText.getText().toString();
-        String  search = editText.getText().toString().toLowerCase();
-        String videoClass = editTextClass.getText().toString();
-        if (videoUri != null || !TextUtils.isEmpty(videoName)){
-
+        String search = editText.getText().toString().toLowerCase();
+        if (videoUri != null || !TextUtils.isEmpty(videoName)) {
             progressBar.setVisibility(View.VISIBLE);
-            final  StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getExt(videoUri));
+            final StorageReference reference = storageReference.child(System.currentTimeMillis() + "." + getExt(videoUri));
             uploadTask = reference.putFile(videoUri);
-
-
             Task<Uri> urltask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
                 @Override
                 public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
-                    if (!task.isSuccessful()){
+                    if (!task.isSuccessful()) {
                         throw task.getException();
                     }
                     return reference.getDownloadUrl();
@@ -144,14 +124,11 @@ public class AddVideoActivity extends AppCompatActivity {
                                 videoProperties.setName(videoName);
                                 videoProperties.setVideourl(downloadUrl.toString());
                                 videoProperties.setSearch(search);
-                                videoProperties.setVideoClass(videoClass);
-
                                 db.collection("Video")
                                         .add(videoProperties)
                                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                             @Override
                                             public void onSuccess(DocumentReference documentReference) {
-
                                             }
                                         })
                                         .addOnFailureListener(new OnFailureListener() {
@@ -159,36 +136,25 @@ public class AddVideoActivity extends AppCompatActivity {
                                             public void onFailure(@NonNull Exception e) {
                                             }
                                         });
-
-
-                            }else {
+                            } else {
                                 Toast.makeText(AddVideoActivity.this, "Ошибка загрузки", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
-
-        }else {
+        } else {
             Toast.makeText(this, "Необходимо заполнить все поля", Toast.LENGTH_SHORT).show();
         }
-
     }
-
-
 
     public void ChooseVideo() {
         Intent intent = new Intent();
         intent.setType("video/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent,PICK_VIDEO);
+        startActivityForResult(intent, PICK_VIDEO);
     }
 
-
     public void back(View view) {
-
         Intent i = new Intent(AddVideoActivity.this, MainActivity.class);
         startActivity(i);
-        //finish();
-
-
     }
 }

@@ -22,6 +22,7 @@ import androidx.navigation.ui.NavigationUI;
 
 import com.example.ashram_app.AddVideo.AddVideoActivity;
 import com.example.ashram_app.AddYoutubeVideo.AddYoutubeVideo;
+import com.example.ashram_app.Login.LogActivity;
 import com.example.ashram_app.ui.meditation.AudioProperties;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-      //  FloatingActionButton fab = findViewById(R.id.fab);
+        //  FloatingActionButton fab = findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View view) {
@@ -82,17 +83,14 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.main, menu);
         search = menu.findItem(R.id.search_firebase);
         action_addVideo = menu.findItem(R.id.action_addVideo);
-        action_addAudio= menu.findItem(R.id.action_addAudio);
+        action_addAudio = menu.findItem(R.id.action_addAudio);
         addVideoYoutube = menu.findItem(R.id.addVideoYoutube);
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userid=user.getUid();
-
-
-         if(userid.equals(admin1UID)){
-        action_addVideo.setVisible(true);
+        String userid = user.getUid();
+        if (userid.equals(admin1UID)) {
+            action_addVideo.setVisible(true);
             addVideoYoutube.setVisible(true);
-                 action_addAudio.setVisible(true);
-
+            action_addAudio.setVisible(true);
         }
         return super.onCreateOptionsMenu(menu);
     }
@@ -120,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
         //finish();
     }
+
     public void onClickAddVideoYoutube(MenuItem item) {
         Intent i = new Intent(MainActivity.this, AddYoutubeVideo.class);
         startActivity(i);
@@ -132,23 +131,19 @@ public class MainActivity extends AppCompatActivity {
             intent.setData(Uri.parse("http://instagram.com/_u/" + "sergey_stefanovskii"));
             intent.setPackage("com.instagram.android");
             startActivity(intent);
-        }
-        catch (android.content.ActivityNotFoundException e)
-        {
+        } catch (android.content.ActivityNotFoundException e) {
             startActivity(new Intent(Intent.ACTION_VIEW,
                     Uri.parse("https://www.instagram.com/" + "sergey_stefanovskii")));
         }
 
 
-
     }
+
     public void WhatsApp(MenuItem item) {
-        String url = "https://api.whatsapp.com/send?phone="+"+79230155969";
+        String url = "https://api.whatsapp.com/send?phone=" + "+79230155969";
         Intent i = new Intent(Intent.ACTION_VIEW);
         i.setData(Uri.parse(url));
         startActivity(i);
-
-
 
 
     }
@@ -161,18 +156,18 @@ public class MainActivity extends AppCompatActivity {
         Intent intent_upload = new Intent();
         intent_upload.setType("audio/*");
         intent_upload.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intent_upload,1);
+        startActivityForResult(intent_upload, 1);
 
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable @org.jetbrains.annotations.Nullable Intent data) {
-        if(requestCode==1){
-            if(resultCode==RESULT_OK){
+        if (requestCode == 1) {
+            if (resultCode == RESULT_OK) {
                 uri = data.getData();
                 Cursor mcursor = getApplicationContext().getContentResolver()
-                        .query(uri,null,null,null,null);
+                        .query(uri, null, null, null, null);
 
                 int indexedname = mcursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
                 mcursor.moveToFirst();
@@ -183,7 +178,8 @@ public class MainActivity extends AppCompatActivity {
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
-/*загрузка аудио в облачное хранилище*/
+
+    /*загрузка аудио в облачное хранилище*/
     private void uploadSongToFirebaseStorage() {
 
         StorageReference storageReference = FirebaseStorage.getInstance().getReference()
@@ -198,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
+                while (!uriTask.isComplete()) ;
                 Uri urlSong = uriTask.getResult();
                 songUrl = urlSong.toString();
 
@@ -215,21 +211,20 @@ public class MainActivity extends AppCompatActivity {
         }).addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onProgress(@NonNull UploadTask.TaskSnapshot taskSnapshot) {
-                double progres = (100.0*taskSnapshot.getBytesTransferred())/taskSnapshot.getTotalByteCount();
-                int currentProgress = (int)progres;
-                progressDialog.setMessage("Uploaded: "+currentProgress+"%");
+                double progres = (100.0 * taskSnapshot.getBytesTransferred()) / taskSnapshot.getTotalByteCount();
+                int currentProgress = (int) progres;
+                progressDialog.setMessage("Uploaded: " + currentProgress + "%");
             }
         });
 
 
-
-
     }
-/*загрузка аудио в фаербейс*/
+
+    /*загрузка аудио в фаербейс*/
     private void uploadDetailsToDatabase() {
         Toast.makeText(MainActivity.this, "Мы дошли до фаербейса", Toast.LENGTH_SHORT).show();
 
-        AudioProperties songObj = new AudioProperties(songName,songUrl);
+        AudioProperties songObj = new AudioProperties(songName, songUrl);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("Audio")
                 .add(songObj)

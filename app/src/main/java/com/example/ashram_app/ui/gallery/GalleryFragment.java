@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -30,6 +31,9 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static com.example.ashram_app.Value.admin1UID;
 
 public class GalleryFragment extends Fragment {
@@ -38,55 +42,39 @@ public class GalleryFragment extends Fragment {
     StorageReference storageReference;
     Query query;
     String name, URL;
-
+    ImageView imageView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
-        // Add the following lines to create RecyclerView
         recyclerView = view.findViewById(R.id.recyclerview_Gallery);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
-
         query = FirebaseFirestore.getInstance()
                 .collection("Video");
-
-
         return view;
-
     }
 
     @Override
     public void onStart() {
         super.onStart();
-
-
         FirestoreRecyclerOptions<VideoProperties> response = new FirestoreRecyclerOptions.Builder<VideoProperties>()
                 .setQuery(query, VideoProperties.class)
                 .build();
-
-
         FirestoreRecyclerAdapter<VideoProperties, ViewHolder> adapter = new FirestoreRecyclerAdapter
                 <VideoProperties, ViewHolder>(response) {
-
             @NonNull
+
             @Override
             public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
                 View view = LayoutInflater.from(parent.getContext())
                         .inflate(R.layout.video_item, parent, false);
                 return new ViewHolder(view);
-
             }
 
             @Override
             protected void onBindViewHolder(ViewHolder viewHolder, int i, VideoProperties videoProperties) {
-
-
                 viewHolder.setExoplayer(getActivity().getApplication(), videoProperties.getName(), videoProperties.getVideourl());
-
-
                 viewHolder.SetOnClickListener(new ViewHolder.ClickListener() {
                     @Override
                     public void OnItemLongClick(View view, int position) {
@@ -96,6 +84,8 @@ public class GalleryFragment extends Fragment {
                         String userid = user.getUid();
                         if (userid.equals(admin1UID)) {
                             showDeleteDialog(name, URL);
+                        } else {
+                            AddFavoriteVideo(name, URL, userid);
                         }
                     }
                 });
@@ -103,11 +93,9 @@ public class GalleryFragment extends Fragment {
         };
         adapter.startListening();
         recyclerView.setAdapter(adapter);
-
     }
 
     private void showDeleteDialog(String name, String URL) {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Удалить видео");
         builder.setMessage("Вы уверены что хотите удалить это видео");
@@ -125,9 +113,9 @@ public class GalleryFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     for (QueryDocumentSnapshot document : task.getResult()) {
                                         docID[0] = document.getId();
-                                        Toast.makeText(getActivity(), docID[0].toString(), Toast.LENGTH_SHORT).show();
+                                        //   Toast.makeText(getActivity(), docID[0].toString(), Toast.LENGTH_SHORT).show();
                                     }
-                                    db.collection("Video").document(docID[0].toString())
+                                    db.collection("Video").document(docID[0])
                                             .delete()
                                             .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                 @Override
@@ -141,16 +129,13 @@ public class GalleryFragment extends Fragment {
                                                     Toast.makeText(getActivity(), "Не удалось удалить видео", Toast.LENGTH_SHORT).show();
                                                 }
                                             });
-
                                 } else {
                                     Toast.makeText(getActivity(), "Документ не существует в базе", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
                 storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(URL);
                 storageReference.delete();
-
             }
         });
         builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
@@ -158,13 +143,45 @@ public class GalleryFragment extends Fragment {
                 dialog.cancel();
             }
         });
-
         AlertDialog alertDialog = builder.create();
         builder.show();
-
     }
 
+    public void AddFavoriteVideo(String name, String URL, String userid) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setTitle("Добавить в избранное");
+        builder.setMessage("Вы хотите добавить видео в избранное?");
+        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                String[] videoID = new String[1];
+                Map<String, Object> VideoFav = new HashMap<>();
+                VideoFav.put("name", name);
+                VideoFav.put("videourl", URL);
+                db.collection("Favorite").document(userid.toString())
+                        .collection("VideoFavorite").document()
+                        .set(VideoFav)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(getActivity(), "Видео добавлено в избранное", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Toast.makeText(getActivity(), "Видео не добавлено в избранное", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+            }
+        });
+        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int i) {
+                dialog.cancel();
+            }
+        });
+        final AlertDialog alertDialog = builder.create();
+        builder.show();
+    }
 }
-
-
-

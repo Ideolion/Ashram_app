@@ -89,16 +89,7 @@ public class HomeFragment extends Fragment {
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         search = menu.findItem(R.id.search_firebase);
-        action_addVideo = menu.findItem(R.id.action_addVideo);
         search.setVisible(false);
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String userid = user.getUid();
-        if (userid.equals(admin1UID)) {
-            action_addVideo.setVisible(true);
-
-        }
-        super.onCreateOptionsMenu(menu, inflater);
-
 
     }
 

@@ -5,8 +5,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,19 +14,22 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ashram_app">
-        <activity android:name=".AddYoutubeVideo.AddYoutubeVideo"></activity>
-        <activity android:name=".AddVideo.AddVideoActivity" />
+        <activity android:name=".AddYoutubeVideo.AddYoutubeVideo" />
+        <activity android:name=".AddVideo.AddVideoActivity"
+
+
+            />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Ashram_app.NoActionBar" />
         <activity
-            android:name=".Log_email_password"
+            android:name=".Login.Log_email_password"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Ashram_app.NoActionBar" />
         <activity
-            android:name=".LogActivity"
+            android:name=".Login.LogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.Ashram_app.NoActionBar" />
         <activity

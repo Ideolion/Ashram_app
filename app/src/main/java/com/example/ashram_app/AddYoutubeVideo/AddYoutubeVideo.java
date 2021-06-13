@@ -23,7 +23,6 @@ public class AddYoutubeVideo extends AppCompatActivity {
     String URL;
     DatabaseReference databaseReference;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,21 +30,14 @@ public class AddYoutubeVideo extends AppCompatActivity {
     }
 
     public void back(View view) {
-
         Intent i = new Intent(AddYoutubeVideo.this, MainActivity.class);
         startActivity(i);
-        //finish();
-
-
-    }
+        }
 
     public void UploadLink(View view) {
         YoutubeURL = findViewById(R.id.YoutubeURL);
         URL = YoutubeURL.getText().toString();
         DataSetList dataSetList = new DataSetList(URL);
-
-
-
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("YoutubeLink")
                 .add(dataSetList)
@@ -53,7 +45,6 @@ public class AddYoutubeVideo extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Toast.makeText(getApplicationContext(), "Ссылка загружена", Toast.LENGTH_SHORT).show();
-
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -62,10 +53,5 @@ public class AddYoutubeVideo extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Ошибка загрузки", Toast.LENGTH_SHORT).show();
                     }
                 });
-
-
-
-
     }
-
 }

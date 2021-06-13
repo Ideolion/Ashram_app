@@ -4,13 +4,11 @@ public class VideoProperties {
     private String name;
     private String videourl;
     private String search;
-    private String videoClass;
 
-    public VideoProperties(String name, String videourl, String search, String videoClass) {
+    public VideoProperties(String name, String videourl, String search) {
         this.name = name;
         this.videourl = videourl;
         this.search = search;
-        this.videoClass = videoClass;
     }
 
     public VideoProperties() {
@@ -40,13 +38,7 @@ public class VideoProperties {
         this.search = search;
     }
 
-    public String getVideoClass() {
-        return videoClass;
-    }
 
-    public void setVideoClass(String videoClass) {
-        this.videoClass = videoClass;
-    }
 
 
 }

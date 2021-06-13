@@ -132,6 +132,9 @@
     <string name="hello_blank_fragment">Избранное аудио</string>
     <string name="whatsapp">WhatsApp</string>
     <string name="instagram">Instagram</string>
+    <string name="title_activity_fullscreen_video">FullscreenActivity</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 
 </resources>

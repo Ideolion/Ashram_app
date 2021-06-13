@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.example.ashram_app.Login.LogActivity;
+
 public class SplashActivity extends Activity {
 
     @Override

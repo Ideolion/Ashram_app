@@ -26,10 +26,10 @@
         android:id="@+id/favoriteVideo"
         android:name="com.example.ashram_app.ui.favoriteVideo.FavoriteVideo"
         android:label="Избранное видео"
-        tools:layout="@layout/fragment_favorite_video" />
+        tools:layout="@layout/fragment_gallery" />
     <fragment
         android:id="@+id/favoriteAudio"
         android:name="com.example.ashram_app.ui.favoriteAudio.FavoriteAudio"
         android:label="Избранное аудио"
-        tools:layout="@layout/fragment_favorite_audio" />
+        tools:layout="@layout/fragment_meditation" />
 </navigation>

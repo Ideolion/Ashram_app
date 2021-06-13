@@ -39,11 +39,11 @@
                     android:id="@+id/exo_fullscreen_icon"
                     android:layout_width="32dp"
                     android:layout_height="match_parent"
-                    android:layout_gravity="center"
                     android:adjustViewBounds="true"
                     android:scaleType="fitCenter"
                     android:src="@drawable/ic_fullscreen_open" />
             </FrameLayout>
+
         </com.google.android.exoplayer2.ui.PlayerView>
 
 
