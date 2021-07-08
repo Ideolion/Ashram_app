@@ -2,11 +2,13 @@ package com.example.ashram_app.ui.gallery;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -43,6 +45,8 @@ public class GalleryFragment extends Fragment {
     Query query;
     String name, URL;
     ImageView imageView;
+    SearchView searchView;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,6 +93,19 @@ public class GalleryFragment extends Fragment {
                         }
                     }
                 });
+
+                ImageView imageViewFullScreen = viewHolder.itemView.findViewById(R.id.exo_fullscreen_icon);
+                imageViewFullScreen.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        URL = getItem(i).getVideourl();
+                        Intent intent = new Intent(view.getContext(), GaleryFullScreen.class);
+                        intent.putExtra("URL", URL);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        view.getContext().startActivity(intent);
+                    }
+                });
+
             }
         };
         adapter.startListening();
@@ -184,4 +201,10 @@ public class GalleryFragment extends Fragment {
         final AlertDialog alertDialog = builder.create();
         builder.show();
     }
+
+
+
+
+
+
 }

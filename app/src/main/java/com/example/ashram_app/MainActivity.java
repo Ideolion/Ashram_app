@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private MenuItem action_addVideo, addVideoYoutube, action_addAudio;
-    private MenuItem search;
     Uri uri;
     String songUrl;
     String songName;
@@ -55,33 +54,33 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        //  FloatingActionButton fab = findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery, R.id.nav_meditation, R.id.favoriteVideo, R.id.favoriteVideo)
                 .setDrawerLayout(drawer)
                 .build();
 
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String userid = user.getUid();
+
+        if (userid.equals(admin1UID)) {
+            navigationView = (NavigationView) findViewById(R.id.nav_view);
+            Menu nav_Menu = navigationView.getMenu();
+            nav_Menu.findItem(R.id.favoriteAudio).setVisible(false);
+            nav_Menu.findItem(R.id.favoriteVideo).setVisible(false);
+        }
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        search = menu.findItem(R.id.search_firebase);
+        //search = menu.findItem(R.id.search_firebase);
         action_addVideo = menu.findItem(R.id.action_addVideo);
         action_addAudio = menu.findItem(R.id.action_addAudio);
         addVideoYoutube = menu.findItem(R.id.addVideoYoutube);
@@ -104,7 +103,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
     public void onClickQuite(MenuItem item) {
         FirebaseAuth.getInstance().signOut();
         Intent i = new Intent(MainActivity.this, LogActivity.class);
@@ -112,17 +110,14 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
     public void onClickAddVideo(MenuItem item) {
         Intent i = new Intent(MainActivity.this, AddVideoActivity.class);
         startActivity(i);
-        //finish();
     }
 
     public void onClickAddVideoYoutube(MenuItem item) {
         Intent i = new Intent(MainActivity.this, AddYoutubeVideo.class);
         startActivity(i);
-        //finish();
     }
 
     public void Instagram(MenuItem item) {
@@ -157,8 +152,6 @@ public class MainActivity extends AppCompatActivity {
         intent_upload.setType("audio/*");
         intent_upload.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent_upload, 1);
-
-
     }
 
     @Override

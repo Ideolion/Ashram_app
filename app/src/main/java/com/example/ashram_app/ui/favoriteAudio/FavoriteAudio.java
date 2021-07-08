@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -38,7 +37,6 @@ import org.jetbrains.annotations.NotNull;
 import java.util.ArrayList;
 
 public class FavoriteAudio extends Fragment {
-    private MenuItem search;
     ListView listView;
     ArrayList<String> arrayListSongsName = new ArrayList<>();
     ArrayList<String> arrayListSongsUrl = new ArrayList<>();
@@ -102,8 +100,6 @@ public class FavoriteAudio extends Fragment {
     @Override
     public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        search = menu.findItem(R.id.search_firebase);
-        search.setVisible(false);
     }
 
     private void showDeleteDialogAudioFavorite(String name, String URL, String userid) {

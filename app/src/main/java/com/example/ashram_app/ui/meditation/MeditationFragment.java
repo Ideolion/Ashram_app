@@ -4,8 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,8 +35,6 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +42,7 @@ import java.util.Map;
 import static com.example.ashram_app.Value.admin1UID;
 
 public class MeditationFragment extends Fragment {
-    private MenuItem action_addVideo, search;
+    private MenuItem action_addVideo;
     RecyclerView recyclerView;
     FirebaseFirestore db;
     ProgressBar progressBar;
@@ -120,12 +116,7 @@ public class MeditationFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        search = menu.findItem(R.id.search_firebase);
-        search.setVisible(false);
-    }
+
 
     private void showDeleteDialogAudio(String name, String URL) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

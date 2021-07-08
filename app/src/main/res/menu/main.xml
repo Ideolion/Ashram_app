@@ -32,11 +32,11 @@
         android:title="@string/action_quit"
         app:showAsAction="never" />
 
-    <item android:id="@+id/search_firebase"
-        android:icon="@drawable/ic_baseline_search_24"
-        app:showAsAction="always"
-        android:title="Search"
-        app:actionViewClass="androidx.appcompat.widget.SearchView" />
+<!--    <item android:id="@+id/search_firebase"-->
+<!--        android:icon="@drawable/ic_baseline_search_24"-->
+<!--        app:showAsAction="always"-->
+<!--        android:title="Search"-->
+<!--        app:actionViewClass="androidx.appcompat.widget.SearchView" />-->
 
 
 </menu>

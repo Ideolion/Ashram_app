@@ -3,7 +3,6 @@ package com.example.ashram_app.ui.gallery;
 import android.app.Application;
 import android.net.Uri;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,7 +20,6 @@ import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 public class ViewHolder extends RecyclerView.ViewHolder {
     SimpleExoPlayer exoPlayer;
     PlayerView playerView;
-    ImageView fullscreenButton;
 
     private ViewHolder.ClickListener mClickListener;
 
@@ -41,8 +39,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         playerView = itemView.findViewById(R.id.exoplayer_item);
         textView.setText(name);
         try {
-         //   BandwidthMeter bandwidthMeter = new DefaultBandwidthMeter.Builder(application).build();
-          //  TrackSelector trackSelector = new DefaultTrackSelector(new AdaptiveTrackSelection.Factory(bandwidthMeter));
             exoPlayer = ExoPlayerFactory.newSimpleInstance(application);
             Uri video = Uri.parse(videourl);
             DefaultHttpDataSourceFactory dataSourceFactory = new DefaultHttpDataSourceFactory("video");
@@ -51,20 +47,6 @@ public class ViewHolder extends RecyclerView.ViewHolder {
             playerView.setPlayer(exoPlayer);
             exoPlayer.prepare(mediaSource);
             exoPlayer.setPlayWhenReady(false);
-            fullscreenButton = itemView.findViewById(R.id.exo_fullscreen_icon);
-//            fullscreenButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    exoPlayer.setPlayWhenReady(false);
-//                    Intent i = new Intent(ViewHolder., MainActivity.class);
-//                    startActivity(i);
-//                }
-//            });
-
-
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

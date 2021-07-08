@@ -84,7 +84,6 @@ public class AddVideoActivity extends AppCompatActivity {
         if (requestCode == PICK_VIDEO || resultCode == RESULT_OK ||
                 data != null || data.getData() != null) {
             videoUri = data.getData();
-
             videoView.setVideoURI(videoUri);
         }
 

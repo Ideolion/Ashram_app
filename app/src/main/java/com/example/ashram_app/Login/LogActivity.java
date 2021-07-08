@@ -48,7 +48,6 @@ public class LogActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log);
-
     }
     @Override
     protected void onStart() {
@@ -60,17 +59,14 @@ public class LogActivity extends AppCompatActivity {
             startActivity(i);
             finish();
         }
-
     }
 
     public void logEmailPassword(View view) {
         if (view.getId() == R.id.btnEmailPassword) {
             Intent intent = new Intent(LogActivity.this, Log_email_password.class);
             startActivity(intent);
-
         }
     }
-
     public void onClickBtnGoogle(View view) {
         mAuth = FirebaseAuth.getInstance();
         GoogleSignInOptions gso = new GoogleSignInOptions
@@ -82,9 +78,6 @@ public class LogActivity extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
-
-
     private void handleSignInResult(Task<GoogleSignInAccount> completedTask) {
         try {
             GoogleSignInAccount acc = completedTask.getResult(ApiException.class);
@@ -93,7 +86,6 @@ public class LogActivity extends AppCompatActivity {
             FirebaseGoogleAuth(null);
         }
     }
-
     private void FirebaseGoogleAuth(GoogleSignInAccount acct) {
         AuthCredential authCredential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(authCredential)
@@ -102,7 +94,6 @@ public class LogActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
-
                             updateUI(user);
                             Toast.makeText(LogActivity.this, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show();
                         } else {
@@ -111,7 +102,6 @@ public class LogActivity extends AppCompatActivity {
                     }
                 });
     }
-
     public void btnFacebook(View view) {
         mAuth = FirebaseAuth.getInstance();
         FacebookSdk.sdkInitialize(getApplicationContext());
@@ -122,23 +112,17 @@ public class LogActivity extends AppCompatActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
-
-                Toast.makeText(LogActivity.this, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onCancel() {
                 updateUI(null);
-
             }
-
             @Override
             public void onError(FacebookException error) {
                 updateUI(null);
                 Toast.makeText(LogActivity.this, "Не удаось авторизоваться", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void handleFacebookAccessToken(AccessToken token) {
@@ -152,30 +136,22 @@ public class LogActivity extends AppCompatActivity {
                             FirebaseUser user = mAuth.getCurrentUser();
                             updateUI(user);
                             Toast.makeText(LogActivity.this, "Авторизация прошла успешно", Toast.LENGTH_SHORT).show();
-
                         } else {
                             // If sign in fails, display a message to the user.
                             updateUI(null);
                             Toast.makeText(LogActivity.this, "Не удалось авторизоваться", Toast.LENGTH_SHORT).show();
-
                         }
-
-
                     }
                 });
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
         if (requestCode == RC_SIGN_IN) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             handleSignInResult(task);
         }else{
             super.onActivityResult(requestCode, resultCode, data);
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
-
-
         }
     }
 

@@ -4,9 +4,6 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
@@ -32,11 +29,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.jetbrains.annotations.NotNull;
-
 
 public class FavoriteVideo extends Fragment {
-    private MenuItem search;
     FirebaseFirestore db;
     RecyclerView recyclerView;
     Query query;
@@ -90,17 +84,6 @@ public class FavoriteVideo extends Fragment {
         adapter.startListening();
         recyclerView.setAdapter(adapter);
     }
-    @Override
-    public void onCreateOptionsMenu(@NonNull @NotNull Menu menu, @NonNull @NotNull MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        search = menu.findItem(R.id.search_firebase);
-        search.setVisible(false);
-    }
-
-
-
-
-
 
     private void showDeleteDialogVideoFavorite(String name, String URL, String userid) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());

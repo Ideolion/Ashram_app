@@ -14,11 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Ashram_app">
+        <activity android:name=".ui.gallery.GaleryFullScreen"
+            android:screenOrientation="landscape"
+                   />
+
+
         <activity android:name=".AddYoutubeVideo.AddYoutubeVideo" />
-        <activity android:name=".AddVideo.AddVideoActivity"
-
-
-            />
+        <activity android:name=".AddVideo.AddVideoActivity" />
+        <activity
+            android:name=".ui.home.Youtube_fullscreen"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
